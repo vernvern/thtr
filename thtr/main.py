@@ -25,6 +25,8 @@ def add_word(word):
     os.system('git add {}'.format(config['PENDING_PATH']))
     os.system('git commit -m ":beers: add word:"'.format(word))
     os.system('git push')
+    print('\n\n')
+
     return word
 
 
@@ -68,7 +70,7 @@ def fix_word(word):
 
         # push
         os.system('git add {} {} {}'.format(
-            file_path
+            file_path,
             config['FIX_PATH'],
             config['PENDING_PATH'],
         ))
