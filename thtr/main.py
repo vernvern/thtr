@@ -56,7 +56,7 @@ def fix_word(word):
                 f.write(json.dumps(notes))
             print('fix: ', notes)
 
-        with open(config['PENDING_PATH'], 'r') as f:
+        with open(config['PENDING_PATH'], 'r+') as f:
             try:
                 notes = json.load(f)
             except json.decoder.JSONDecodeError as e:
@@ -74,7 +74,7 @@ def fix_word(word):
             config['FIX_PATH'],
             config['PENDING_PATH'],
         ))
-        os.system('git commit -m ":beers: add word:"'.format(word))
+        os.system('git commit -m ":beers: fix word:"'.format(word))
         os.system('git push')
 
     else:
