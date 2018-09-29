@@ -13,15 +13,15 @@ Too hard To Remember !!!
     ```
     It will add 'new_word' in ./data/pending.json and push to github.
 
-    
+
 - get a pending word:
     ```
     $ thtr random
     ```
     It will catch a word unsystematic from ./data/pending.json.
-    
-    then run  and I must find and save some thing related to this word!! 
-    
+
+    then run  and I must find and save some thing related to this word!!
+
     Without any reason!!!
 
 
@@ -30,7 +30,7 @@ Too hard To Remember !!!
     $ thtr fix word
     ```
     1. run `vim ./data/notes/random_word.md`
-    2. 
+    2.
     ```
     if ./data/notes/random_word.md is exist:
         - move this word from ./data/pending.json to ./data/fix.json.
