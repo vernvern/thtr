@@ -8,7 +8,7 @@ Too hard To Remember !!!
 # Install
 
     pip install -r ./requirements.txt
-    export thtr=/project_path/thtr
+    alias thtr=/project_path/thtr
 
 
 ## Features
