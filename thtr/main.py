@@ -23,7 +23,7 @@ def add_word(word):
         f.write(json.dumps(words))
     os.chdir(config['ROOT_PATH'])
     os.system('git add {}'.format(config['PENDING_PATH']))
-    os.system('git commit -m ":beers: add word:"'.format(word))
+    os.system('git commit -m ":see_no_evil: add word: {}"'.format(word))
     os.system('git push')
     print('\n\n')
 
