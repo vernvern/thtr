@@ -5,6 +5,12 @@ English words are --
 Too hard To Remember !!!
 
 
+# Install
+
+    pip install -r ./requirements.txt
+    export thtr=/project_path/thtr
+
+
 ## Features
 
 - add new word:
