@@ -1,0 +1,24 @@
+---
+
+- name: docker build nginx
+  docker_image:
+    name: thtr:nginx-1.13.9
+    path: "{{ dockerfile_path_nginx }}"
+    nocache: yes
+
+- name: nginx`s log
+  shell: mkdir /opt/log/nginx -p && touch /opt/log/nginx/access.log && touch /opt/log/nginx/error.log
+
+
+- name: nginx`s docker container
+  docker_container:
+    name: thtr_nginx
+    image: thtr:nginx-1.13.9
+    volumes:
+      - /opt/log:/opt/log
+      - /opt/src/thtr:/opt/src/thtr
+    ports:
+      - "80:80"
+    networks:
+      - name: docker_newwork
+        ipv4_address: 192.168.1.4

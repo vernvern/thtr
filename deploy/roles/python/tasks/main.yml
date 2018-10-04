@@ -1,0 +1,18 @@
+---
+
+- name: docker build python
+  docker_image:
+    name: thtr:python-3.6.4
+    path: "{{ dockerfile_path_python }}"
+    pull: yes
+
+- name: python`s docker run
+  docker_container:
+    name: thtr_python
+    image: thtr:python-3.6.4
+    volumes:
+    - /opt/log:/opt/log
+    - /opt/src/thtr:/opt/src/thtr
+    networks:
+      - name: docker_newwork
+        ipv4_address: 192.168.1.3

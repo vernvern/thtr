@@ -1,0 +1,41 @@
+---
+
+- name: base tools
+  gather_facts: no
+  hosts:
+    - "{{ mode }}_server"
+  roles:
+    - base_tools
+  vars_files:
+    - "vars/{{ mode }}_kwargs"
+  tags: base_tools
+
+- name: docker
+  gather_facts: no
+  hosts:
+    - "{{ mode }}_server"
+  vars_files:
+    - "vars/{{ mode }}_kwargs"
+  roles:
+    - docker
+  tags: docker
+
+- name: python
+  gather_facts: no
+  hosts:
+    - "{{ mode }}_server"
+  vars_files:
+    - "vars/{{ mode }}_kwargs"
+  roles:
+    - python
+  tags: python
+
+- name: nginx
+  gather_facts: no
+  hosts:
+    - "{{ mode }}_server"
+  vars_files:
+    - "vars/{{ mode }}_kwargs"
+  roles:
+    - nginx
+  tags: nginx

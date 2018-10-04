@@ -1,0 +1,49 @@
+---
+
+- name: check docker exist
+  shell: which docker
+  register: check_docker_exist
+  ignore_errors: True
+
+- name: add GPG key
+  # 国内源
+  shell: curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+  # 官方源
+  # shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  when: check_docker_exist is failed
+  
+- name: add docker`s source
+  shell: 'add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable"'
+  when: check_docker_exist is failed
+
+- name: install docker
+  apt:
+    name: docker-ce
+    update_cache: yes
+  when: check_docker_exist is failed
+
+- name: check docker opts
+  shell: cat /etc/default/docker | grep '^DOCKER_OPTS'
+  register: check_docker_opts
+  ignore_errors: True
+
+- name: input docker opts
+  shell: echo 'DOCKER_OPTS="--registry-mirror=https://registry.docker-cn.com"' >> /etc/default/docker
+  when: check_docker_opts is failed
+
+- name: check python`s module-docker
+  shell: pip show docker
+  ignore_errors: True
+  register: check_python_module_docker
+
+- name: install python`s moduels-docker
+  shell: pip install docker==3.5.0
+  when: check_python_module_docker.stdout.find('docker') ==  -1
+
+- name: docker create network
+  docker_network:
+    name: docker_newwork
+    ipam_options: 
+      subnet: '192.168.1.1/24'
+      gateway: 192.168.1.1
+

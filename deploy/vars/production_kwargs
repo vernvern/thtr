@@ -1,0 +1,5 @@
+---
+
+# docker
+dockerfile_path_python: /opt/src/thtr/deploy/Dockerfiles/python
+dockerfile_path_nginx: /opt/src/thtr/deploy/Dockerfiles/nginx

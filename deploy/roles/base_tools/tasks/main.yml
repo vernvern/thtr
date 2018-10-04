@@ -1,0 +1,59 @@
+---
+
+- name: show mode
+  shell: echo '{{ mode }}'
+  register: show_mode
+
+- name: check git
+  shell: which git
+  register: check_git
+  ignore_errors: True
+
+- name: install git
+  apt:
+    name: git
+    update_cache: yes
+    force: yes
+  when: check_git is failed
+
+- name: check curl
+  shell: which curl
+  register: check_curl
+  ignore_errors: True
+
+- name: install curl
+  apt:
+    name: curl
+    update_cache: yes
+    force: yes
+  when: check_curl is failed
+
+- name: pull code
+  git:
+    repo: https://github.com/vernvern/thtr.git
+    dest: /opt/src/thtr
+    update: yes
+    clone: yes
+    version: "{{ code_tag }}"
+  when: show_mode.stdout.find('local') == -1
+
+- name: check pip
+  shell: which pip
+  register: check_pip
+  ignore_errors: True
+
+- name: isntall pip
+  apt:
+    name: python-pip
+    update_cache: yes
+    force: yes
+  when: check_pip is failed
+
+- name: check python`s docker module
+  shell: pip show docker
+  register: check_python_docker
+  ignore_errors: True
+
+- name: install python`s docker module
+  shell: pip install docker
+  when: check_python_docker is failed
