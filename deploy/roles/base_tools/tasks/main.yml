@@ -1,5 +1,9 @@
 ---
 
+- name: export mode
+  shell: "export MODE='{{ mode }}' && echo '{{ mode }}'"
+  register: export_mode
+
 - name: show mode
   shell: echo '{{ mode }}'
   register: show_mode

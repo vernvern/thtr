@@ -11,7 +11,7 @@
   # 官方源
   # shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   when: check_docker_exist is failed
-  
+
 - name: add docker`s source
   shell: 'add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable"'
   when: check_docker_exist is failed
@@ -43,7 +43,7 @@
 - name: docker create network
   docker_network:
     name: docker_newwork
-    ipam_options: 
+    ipam_options:
       subnet: '192.168.1.1/24'
       gateway: 192.168.1.1
 
