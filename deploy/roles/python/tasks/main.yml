@@ -10,6 +10,8 @@
   docker_container:
     name: thtr_python
     image: thtr:python-3.6.4
+    env:
+      MODE: '{{ mode }}'
     volumes:
     - /opt/log:/opt/log
     - /opt/src/thtr:/opt/src/thtr
