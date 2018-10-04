@@ -8,6 +8,7 @@
 
 - 服务器添加ssh key(本地执行 `sh-copy-id user@192.168.0.0.1`)
 
+- `cp deploy/vars/hosts.bak deploy/vars/hosts`，然后修改local ip和production ip
 
 
 ## 使用
@@ -21,6 +22,9 @@
 命令: ansible-playbook deploy_project.yml -e mode=local
 
 ### 生产环境
+
+> 首次使用，需要:
+> 1. 设置 `SECRET_KEY` 环境变量
 
 命令: ansible-playbook deploy_project.yml -e mode=production -e code_tag=master
 
