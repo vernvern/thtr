@@ -12,6 +12,7 @@
     image: thtr:python-3.6.4
     env:
       MODE: '{{ mode }}'
+      SECRET_KEY: '{{ SECRET_KEY }}'
     volumes:
     - /opt/log:/opt/log
     - /opt/src/thtr:/opt/src/thtr

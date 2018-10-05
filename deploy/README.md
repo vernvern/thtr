@@ -24,9 +24,8 @@
 ### 生产环境
 
 > 首次使用，需要:
-> 1. 设置 `SECRET_KEY` 环境变量
 
-命令: ansible-playbook deploy_project.yml -e mode=production -e code_tag=master
+命令: ansible-playbook deploy_project.yml -e mode=production -e code_tag=master -e SECRET_KEY=test
 
 
 ## 参数
