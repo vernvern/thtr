@@ -19,7 +19,7 @@
 > 1. 将宿主机代码仓连接到虚拟机 /opt/src/thtr
 > 2. 把 deploy/vars/hosts 文件中的 `local_server` 值改成本地服务器的ip
 
-命令: ansible-playbook deploy_project.yml -e mode=local
+命令: ansible-playbook deploy_project.yml -e mode=local -e SECRET_KEY=test
 
 ### 生产环境
 
