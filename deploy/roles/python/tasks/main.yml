@@ -10,9 +10,14 @@
   docker_container:
     name: thtr_python
     image: thtr:python-3.6.4
+    env:
+      MODE: '{{ mode }}'
+      SECRET_KEY: '{{ SECRET_KEY }}'
     volumes:
     - /opt/log:/opt/log
     - /opt/src/thtr:/opt/src/thtr
+    ports:
+      - '8000:8000'
     networks:
       - name: docker_newwork
         ipv4_address: 192.168.1.3
