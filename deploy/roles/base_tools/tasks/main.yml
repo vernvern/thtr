@@ -1,5 +1,6 @@
 ---
 
+
 - name: show mode
   shell: echo '{{ mode }}'
   register: show_mode
