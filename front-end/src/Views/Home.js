@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './Home.css';
 
-class App extends Component {
+class Home extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="Home">
+        <header className="Home-header">
+          <img src={logo} className="Home-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.test
+            Edit <code>src/Home.js</code> and save to reload.test
           </p>
           <a
-            className="App-link"
+            className="Home-link"
             href="https://reactjs.org"
             target="_blank"
             rel="noopener noreferrer"
@@ -25,4 +25,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
