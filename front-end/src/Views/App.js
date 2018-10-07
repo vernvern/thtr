@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <div className="row site">
-        <div className='sm-12 md-8 col'>
+        <div className='sm-12 md-12 col'>
           <div className='page'>
 
             {/* nav */}
@@ -20,7 +20,7 @@ class App extends Component {
             <div className='row'> <br /> </div>
 
             <div className='Main row'>
-              <div className='md-1 col'></div>
+              <div className='md-10 col'></div>
 
               <div className='md-10 col'>
                 {/* body */}
