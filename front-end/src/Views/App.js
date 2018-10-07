@@ -6,14 +6,29 @@ import { Register } from './Login';
 import Nav from './Nav';
 
 
+import '../Css/index.css';
+
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Nav />
-        <div className='Main'>
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/' component={Home} />
+      <div className="row site">
+        <div className='sm-12 md-8 col'>
+          <div className='page'>
+
+            {/* nav */}
+            <div className='row'> <Nav /> </div>
+            <div className='row'> <br /> </div>
+
+            <div className='Main row'>
+              <div className='md-1 col'></div>
+
+              <div className='md-10 col'>
+                {/* body */}
+                <Route exact path='/register' component={Register} />
+                <Route exact path='/' component={Home} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
