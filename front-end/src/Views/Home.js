@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import '../Css/Home.css';
 
+import logo from '../Images/logo.svg';
 
 class Home extends Component {
   render() {
@@ -20,6 +21,7 @@ class Home extends Component {
           >
             Learn React
           </a>
+        <input type="text" value="Hello!" />
         </header>
       </div>
     );
