@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Router, Route, Switch } from 'react-router';
 
 import history from './history';
 import App from './Views/App';
-import Home from './Views/Home';
-import Login, { Register } from './Views/Login';
+import Login from './Views/Login';
 
 
 let AppRouter =
