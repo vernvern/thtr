@@ -23,8 +23,7 @@ class Login extends Component {
               </div>
             </div>
 
-
-            <div className="row" style={{ textAlign: 'center' }}>
+            <div className="row">
               <div className='sm-12 col'>
                 <p style={{ textAlign: 'center' }}> Sign in to thtr </p>
               </div>
