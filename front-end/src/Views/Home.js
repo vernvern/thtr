@@ -22,7 +22,6 @@ class Home extends Component {
             Learn React
           </a>
         <input type="text" value="Hello!" />
-        <input type="text" value="Hello!" />
         </header>
       </div>
     );
