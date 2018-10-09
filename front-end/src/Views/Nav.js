@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import Logo from '../Images/logo.svg';
-
 
 class Nav extends Component {
   render() {

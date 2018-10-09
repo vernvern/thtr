@@ -7,10 +7,6 @@ import logo from '../Images/logo.svg';
 class Login extends Component {
   render() {
 
-    const loginFormStyle = {
-      border: '1px solid #c1c0bd',
-    };
-
     return (
       <div id='login'>
 
