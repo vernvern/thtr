@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -68,7 +67,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'thtr.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -78,7 +76,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -98,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -112,8 +108,98 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+def skip_uplevelno(record):
+    if record.levelno >= 30:
+        return False
+    return True
+
+
+# log配置字典
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s]-[%(filename)s:%(lineno)d]' \
+                      '-[%(levelname)s][%(message)s]'
+        },
+        'simple': {
+            'format': '[%(levelname)s]-[%(asctime)s]-[%(filename)s:%(lineno)d]%(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'skip_uplevelnos': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_uplevelno,
+        },
+    },
+    'handlers': {
+        # 打印到终端的日志
+        'local': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',  # 打印到屏幕
+            'formatter': 'simple'
+        },
+        'production': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',  # 打印到屏幕
+            'formatter': 'simple'
+        },
+        # 打印到文件的日志,收集info及以上的日志
+        'stdout': {
+            'level': 'DEBUG',
+            # 'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件
+            'class': 'logging.FileHandler',  # 保存到文件
+            'formatter': 'standard',
+            'filters': ['skip_uplevelnos'],
+            'filename': '/opt/log/python/stdout.log',  # 日志文件
+            # 'maxBytes': 1024 * 1024 * 5,  # 日志大小 5M
+            # 'backupCount': 5,
+            'encoding': 'utf-8',  # 日志文件的编码，再也不用担心中文log乱码了
+        },
+        'stderr': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',  # 保存到文件
+            'formatter': 'standard',
+            'filename': '/opt/log/python/stderr.log',  # 日志文件
+            'encoding': 'utf-8',  # 日志文件的编码，再也不用担心中文log乱码了
+        },
+    },
+    'loggers': {
+        # logging.getLogger(__name__)拿到的logger配置
+        '': {
+            'handlers': ['local', 'production', 'stdout', 'stderr'],  # 这里把上面定义的两个handler都加上，即log数据既写入文件又打印到屏幕
+            'level': 'DEBUG',
+            'propagate': False,  # 向上（更高level的logger）传递
+        },
+        'django': {
+            'handlers': ['local', 'production', 'stdout', 'stderr'],  # 这里把上面定义的两个handler都加上，即log数据既写入文件又打印到屏幕
+            'level': 'DEBUG',
+            'propagate': False,  # 向上（更高level的logger）传递
+        },
+        'django.server': {
+            'handlers': ['local', 'production'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['local', 'production'],
+            'level': 'INFO',
+            'propagate': False,
+        }
+    },
+}
