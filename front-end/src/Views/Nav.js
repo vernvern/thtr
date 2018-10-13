@@ -8,18 +8,17 @@ class Nav extends Component {
     const navsBrand = [
       <h4><Link to='/'> Too Hard Too Remeber ! </Link></h4>,
     ];
-    const navBrandList = navsBrand.map((navsBrand) =>
-      <li>{navsBrand}</li>
-    );
+    const navBrandList = navsBrand.map(function(object, i){
+      return <li key={i}>{object}</li>
+    });
 
     const navsRight = [
       <Link to='/page/add'> &nbsp;+&nbsp; </Link>,
       <Link to='/about'> 我的 </Link>
     ];
-    const navRightList = navsRight.map((navsRight) =>
-      <li>{navsRight}</li>
-    );
-
+    const navRightList = navsRight.map(function(object, i){
+      return <li key={i}>{object}</li>
+    });
     return (
      <nav className="border fixed split-nav">
        <div className="nav-brand">
