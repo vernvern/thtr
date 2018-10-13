@@ -5,8 +5,8 @@ import Home from './Home';
 import { Register } from './Login';
 import Nav from './Nav';
 
-
 import '../Css/index.css';
+
 
 class App extends Component {
   render() {
@@ -25,7 +25,7 @@ class App extends Component {
               <div className='md-10 col'>
                 {/* body */}
                 <Route exact path='/register' component={Register} />
-                <Route exact path='/' component={Home} />
+                <Route exact path='/home' component={Home} />
               </div>
             </div>
           </div>

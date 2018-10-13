@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Auth from '../Components/auth';
+
 import logo from '../Images/logo.svg';
 
 
 class Login extends Component {
-  render() {
 
+  login  = () => {
+    let auth = this.props.auth==null ? new new Auth() : this.props.auth;
+    var isLogin = auth.login();
+    if (isLogin){
+      this.props.history.push("/home");
+    } else {
+      return console.info('login failed');
+    }
+  }
+
+  render() {
     return (
       <div id='login'>
 
@@ -36,7 +48,7 @@ class Login extends Component {
                     <input type="text" placeholder="🙈" id="password" />
                 </div>
 
-                <button type='submit' className='btn-block'> 登录 </button>
+                <button type='submit' className='btn-block' onClick={this.login}> 登录 </button>
               </div>
             </div>
 

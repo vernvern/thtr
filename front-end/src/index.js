@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
 import Login from './Views/Login';
+import Auth from './Components/auth';
 
+
+let  auth = new Auth();
 
 const supportsHistory = 'pushState' in window.history
 
@@ -14,8 +17,14 @@ const supportsHistory = 'pushState' in window.history
 ReactDOM.render(
   <BrowserRouter forceRefresh={!supportsHistory}>
     <Switch>
-      <Route exact path='/login' component={Login} />
-      <Route path='/' component={App} />
+      <Route exact path='/login' render={(props)=>{ return <Login auth={auth} {...props} />}} />
+      <Route path='/' render={(props)=>{
+        if (auth.isLogin) {
+          return <App />
+        } else {
+          return <Redirect to='/login' />
+        }
+      }} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
