@@ -14,6 +14,11 @@ class Auth extends React.Component {
     return this.isLogin;
   }
 
+  logout(e) {
+    this.isLogin = false;
+    return this.isLogin;
+  }
+
 }
 
 

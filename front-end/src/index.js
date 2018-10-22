@@ -17,7 +17,13 @@ const supportsHistory = 'pushState' in window.history
 ReactDOM.render(
   <BrowserRouter forceRefresh={!supportsHistory}>
     <Switch>
-      <Route exact path='/login' render={(props)=>{ return <Login auth={auth} {...props} />}} />
+      <Route exact path='/login' render={(props)=>{
+        if (auth.isLogin) {
+          return <Redirect to='/home' />
+        } else {
+          return <Login auth={auth} {...props} />
+        }
+      }} />
       <Route path='/' render={(props)=>{
         if (auth.isLogin) {
           return <App />

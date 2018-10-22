@@ -6,7 +6,7 @@ class Nav extends Component {
   render() {
 
     const navsBrand = [
-      <h4><Link to='/'> Too Hard Too Remeber ! </Link></h4>,
+      <h4><Link to='/home'> Too Hard Too Remeber ! </Link></h4>,
     ];
     const navBrandList = navsBrand.map(function(object, i){
       return <li key={i}>{object}</li>
