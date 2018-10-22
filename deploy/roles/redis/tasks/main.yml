@@ -1,0 +1,24 @@
+---
+
+
+
+- name: docker build redis
+  docker_image:
+    name: thtr:redis-4.0.11
+    path: "{{ dockerfile_path_redis }}"
+    nocache: yes
+
+
+- name: redis`s docker container
+  docker_container:
+    name: thtr_redis
+    image: thtr:redis-4.0.11
+    volumes:
+      - /opt/log:/opt/log
+      - /opt/src/thtr:/opt/src/thtr
+      - /opt/data:/opt/data
+    ports:
+      - "6379:6379"
+    networks:
+      - name: docker_newwork
+        ipv4_address: 192.168.1.5
