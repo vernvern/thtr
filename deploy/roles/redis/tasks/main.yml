@@ -1,9 +1,10 @@
 ---
 
+
 - iptables:
     chain: INPUT
     protocol: tcp
-    source: 127.0.0.1
+    source: 192.168.1.3
     destination_port: 6379
     jump: ACCEPT
     rule_num: 1
