@@ -1,6 +1,19 @@
 ---
 
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    source: 127.0.0.1
+    destination_port: 6379
+    jump: ACCEPT
+    rule_num: 1
 
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 6379
+    jump: DROP
+    rule_num: 2
 
 - name: docker build redis
   docker_image:
