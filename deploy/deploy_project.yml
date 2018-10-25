@@ -39,3 +39,13 @@
   roles:
     - nginx
   tags: nginx
+
+- name: redis
+  gather_facts: no
+  hosts:
+    - "{{ mode }}_server"
+  vars_files:
+    - "vars/{{ mode }}_kwargs"
+  roles:
+    - redis
+  tags: redis

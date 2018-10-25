@@ -1,0 +1,48 @@
+---
+
+
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    source: 127.0.0.1
+    destination_port: 6379
+    jump: ACCEPT
+    rule_num: 1
+
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    source: 192.168.1.3
+    destination_port: 6379
+    jump: ACCEPT
+    rule_num: 2
+
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 6379
+    jump: DROP
+    rule_num: 3
+
+- name: docker build redis
+  docker_image:
+    name: thtr:redis-4.0.11
+    path: "{{ dockerfile_path_redis }}"
+    nocache: yes
+
+
+- name: redis`s docker container
+  docker_container:
+    name: thtr_redis
+    image: thtr:redis-4.0.11
+    volumes:
+      - /opt/log:/opt/log
+      - /opt/src/thtr:/opt/src/thtr
+      - /opt/data/redis_master:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - name: docker_newwork
+        ipv4_address: 192.168.1.5
+    command: redis-server --appendonly yes
+    recreate: yes
