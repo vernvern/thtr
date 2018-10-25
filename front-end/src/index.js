@@ -1,23 +1,12 @@
-import React from 'react';
+// import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import * as serviceWorker from './serviceWorker';
-
-import App from './Views/App';
-import Login from './Views/Login';
-
-
-const supportsHistory = 'pushState' in window.history
+import AppRouter from './route'
 
 
 ReactDOM.render(
-  <BrowserRouter forceRefresh={!supportsHistory}>
-    <Switch>
-      <Route exact path='/login' component={Login} />
-      <Route path='/' component={App} />
-    </Switch>
-  </BrowserRouter>,
+  AppRouter,
   document.getElementById('root')
 );
 
