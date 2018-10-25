@@ -11,5 +11,5 @@ class Query(graphene.ObjectType):
 
     def resolve_users(self, info):
         test = User(account='dsa')
-        test1 = User(account='ds1a')
+        test1 = User(account='ds1a', removed=True)
         return [test, test1]
