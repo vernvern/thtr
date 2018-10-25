@@ -4,7 +4,6 @@
   docker_image:
     name: thtr:nginx-1.13.9
     path: "{{ dockerfile_path_nginx }}"
-    nocache: yes
 
 - name: nginx`s log
   shell: mkdir /opt/log/nginx -p && touch /opt/log/nginx/access.log && touch /opt/log/nginx/error.log
