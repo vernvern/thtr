@@ -4,3 +4,4 @@ db.sqlite3
 deploy/vars/hosts
 deploy/deploy_project.retry
 .idea/*
+migrations/
