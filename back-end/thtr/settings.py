@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'graphene_django',
     'Public',
-    'Auth',
+    'Member',
     'Word'
 ]
 
@@ -135,5 +135,5 @@ STATIC_URL = '/static/'
 
 
 GRAPHENE = {
-            'SCHEMA': 'schema.schema' # Where your Graphene schema lives
-            }
+    'SCHEMA': 'schema.schema' # Where your Graphene schema lives
+}

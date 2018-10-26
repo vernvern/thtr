@@ -3,7 +3,7 @@
 import graphene
 
 from .graphene_models import User
-from Auth.models import UserModel
+from Member.models import UserModel
 
 
 class Query(graphene.ObjectType):

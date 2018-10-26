@@ -4,7 +4,7 @@ from Public.models import BaseModel
 
 
 class UserModel(BaseModel):
-    account = models.CharField(max_length=20)
+    email = models.EmailField()
     nick_name = models.CharField(max_length=20)
     password = models.CharField(max_length=32)
-    email = models.EmailField()
+    description = models.CharField(max_length=200)
