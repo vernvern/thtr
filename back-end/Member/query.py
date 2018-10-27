@@ -2,14 +2,12 @@
 
 import graphene
 
-from .graphene_models import User
-from Member.models import UserModel
+from .modules import auth
 
 
 class Query(graphene.ObjectType):
-    users = graphene.List(User)
+    pass
 
-    def resolve_users(self, info):
-        test = User(account='dsa')
-        test1 = User(account='ds1a', removed=True)
-        return [test, test1]
+
+Query.login = auth.Login.login
+Query.resolve_login = auth.Login.resolve_login
