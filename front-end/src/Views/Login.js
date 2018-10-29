@@ -6,16 +6,6 @@ import logo from '../Images/logo.svg';
 
 class Login extends Component {
 
-  login  = () => {
-    let auth = this.props.auth;
-    var isLogin = auth.login();
-    if (isLogin){
-      this.props.history.push("/home");
-    } else {
-      return console.info('login failed');
-    }
-  }
-
   render() {
     return (
       <div id='login'>
@@ -39,14 +29,14 @@ class Login extends Component {
               <div className="sm-12 md-12 col padding-left-large">
                 <div className="form-group">
                     <label htmlFor="account">账号</label>
-                    <input type="text" placeholder="邮箱 | 账号" id="account" />
+                    <input type="text" placeholder="邮箱 | 账号" id="account" value={this.props.account} onChange={this.props.accountChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">密码</label>
-                    <input type="text" placeholder="🙈" id="password" />
+                    <input type="text" placeholder="🙈" id="password" value={this.props.password} onChange={this.props.passwordChange}/>
                 </div>
 
-                <button type='submit' className='btn-block' onClick={this.login}> 登录 </button>
+                <button type='submit' className='btn-block' onClick={this.props.login}> 登录 </button>
               </div>
             </div>
 

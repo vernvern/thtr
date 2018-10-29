@@ -5,32 +5,24 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
-import Login from './Views/Login';
 import Auth from './Components/auth';
 
 
-let  auth = new Auth();
-
-const supportsHistory = 'pushState' in window.history
+const supportsHistory = 'pushState' in window.history;
 
 
 ReactDOM.render(
   <BrowserRouter forceRefresh={!supportsHistory}>
     <Switch>
-      <Route exact path='/login' render={(props)=>{
-        if (auth.isLogin) {
-          return <Redirect to='/home' />
-        } else {
-          return <Login auth={auth} {...props} />
-        }
-      }} />
+      <Route path='/auth' component={Auth} />
       <Route path='/' render={(props)=>{
-        if (auth.isLogin) {
-          return <App />
+        var access_token = localStorage.getItem('access_token');
+        if (access_token){
+          return <App />;
         } else {
-          return <Redirect to='/login' />
+          return <Redirect to='/auth/login' />;
         }
-      }} />
+      }}/>
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
