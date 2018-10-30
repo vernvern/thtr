@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 import Home from './Home';
-import { Register } from './Login';
+import Register from './Register';
 import Nav from './Nav';
 
 import '../Css/index.css';
@@ -25,7 +25,14 @@ class App extends Component {
               <div className='md-10 col'>
                 {/* body */}
                 <Route exact path='/register' component={Register} />
-                <Route exact path='/home' component={Home} />
+                <Route exact path='/home'  render={(props)=>{
+                  var access_token = localStorage.getItem('access_token');
+                  if (access_token){
+                    return <App />;
+                  } else {
+                    return <Redirect to='/login' />;
+                  }
+                }}/>
               </div>
             </div>
           </div>

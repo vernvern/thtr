@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import * as serviceWorker from './serviceWorker';
 
@@ -17,14 +17,7 @@ ReactDOM.render(
       <Route path='/login' render={(props)=>{
         return <Login />;
       }}/>
-      <Route path='/' render={(props)=>{
-        var access_token = localStorage.getItem('access_token');
-        if (access_token){
-          return <App />;
-        } else {
-          return <Redirect to='/login' />;
-        }
-      }}/>
+      <Route path='/' component={App} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
