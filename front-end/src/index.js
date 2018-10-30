@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
-import Auth from './Components/auth';
+import Login from './Views/Login';
 
 
 const supportsHistory = 'pushState' in window.history;
@@ -14,15 +14,15 @@ const supportsHistory = 'pushState' in window.history;
 ReactDOM.render(
   <BrowserRouter forceRefresh={!supportsHistory}>
     <Switch>
-      <Route path='/auth' render={(props)=>{
-        return <Auth />;
+      <Route path='/login' render={(props)=>{
+        return <Login />;
       }}/>
       <Route path='/' render={(props)=>{
         var access_token = localStorage.getItem('access_token');
         if (access_token){
           return <App />;
         } else {
-          return <Redirect to='/auth/login' />;
+          return <Redirect to='/login' />;
         }
       }}/>
     </Switch>

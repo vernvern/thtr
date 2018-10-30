@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import gql from 'graphql-tag';
+
+import client from '../Components/client';
 
 import logo from '../Images/logo.svg';
 
@@ -7,13 +10,81 @@ import logo from '../Images/logo.svg';
 class Login extends Component {
   constructor(props){
     super(props);
+    const access_token = localStorage.getItem('access_token');
+    this.state = {
+      account: '',
+      password: '',
+      isLogin: access_token ? true : false,
+      code: '0'
+    };
 
-    this.noticeMsg = this.noticeMsg.bind(this);
+    this.accountChange = this.accountChange.bind(this);
+    this.passwordChange = this.passwordChange.bind(this);
+    this.login = this.login.bind(this);
+
   }
 
-  noticeMsg(code){
+  accountChange(event){
+    this.setState({account: event.target.value});
+  }
+
+  passwordChange(event){
+    this.setState({password: event.target.value});
+  }
+
+  // return code:
+  // - 2001: didn`t input account
+  // - 2002: didn`t input password
+  // - 2003: network failed
+  // - 1002: account did`t exist
+  // - 1003: wrong password
+  login() {
+    var code = this.state.code;
+    if (!this.state.account){
+      this.setState({code: '2001'});
+    } else if (!this.state.password){
+      this.setState({code: '2002'});
+    } else {
+      const query = gql`
+        query dsa($email: String, $password: String){
+          login(email: $email, password: $password){
+            accessToken,
+            code,
+            msg
+          }
+        }
+      `;
+      const input = {
+        "email": this.state.account,
+        "password": this.state.password
+      };
+      // async...
+      client
+        .query({query: query, variables: input})
+        .then(ret => {
+          // request success
+          code = ret.data.login.code;
+          var isLogin = code === '0';
+          if (isLogin) {
+            localStorage.setItem('access_token', ret.data.login.access_token);
+          }
+          this.setState({code: code, isLogin: isLogin});
+        })
+        .catch(error => {
+          // request fail
+          console.error(error);
+          this.setState({code: '2003'});
+        });
+    }
+  }
+
+  render() {
+    if (this.state.isLogin) {
+      return <Redirect to='/home' />
+    }
+
     let msg = '';
-    switch (code){
+    switch (this.state.code){
       case '2001': msg = '请输入账号'; break;
       case '2002': msg = '请输入密码'; break;
       case '2003': msg = '网络错误，请稍后再试'; break;
@@ -21,12 +92,9 @@ class Login extends Component {
       case '1003': msg = '密码错误'; break;
       default: msg = '';
     }
-    return msg;
-  }
 
-  render() {
-    const msg = this.noticeMsg(this.props.code);
     return (
+
       <div id='login'>
 
         <div className="row flex-center">
@@ -48,14 +116,14 @@ class Login extends Component {
               <div className="sm-12 md-12 col padding-left-large">
                 <div className="form-group">
                     <label htmlFor="account">账号</label>
-                    <input type="text" className='border border-primary' placeholder="邮箱 | 账号" id="account" value={this.props.account} onChange={this.props.accountChange} />
+                    <input type="text" className='border border-primary' placeholder="邮箱 | 账号" id="account" value={this.state.account} onChange={this.accountChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">密码</label>
-                    <input type="text" className='border border-primary' placeholder="🙈" id="password" value={this.props.password} onChange={this.props.passwordChange}/>
+                    <input type="text" className='border border-primary' placeholder="🙈" id="password" value={this.state.password} onChange={this.passwordChange}/>
                 </div>
 
-                <button type='submit' className='btn-block' onClick={this.props.login}> 登录 </button>
+                <button type='submit' className='btn-block' onClick={this.login}> 登录 </button>
                 <p className="text-danger">{msg}</p>
               </div>
             </div>
