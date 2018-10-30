@@ -2,18 +2,18 @@
 
 import graphene
 from graphene_django import DjangoObjectType
-from Public.graphene_hepler import GrapheneDjangoObjectType
+from Public.graphene_models import BaseObjectType
 
 from .models import UserModel
 
 
-class User(GrapheneDjangoObjectType):
+class User(BaseObjectType, DjangoObjectType):
     class Meta:
         model = UserModel
     removed = graphene.String(required=False)
 
 
-class LoginOutputType(GrapheneDjangoObjectType):
+class LoginOutputType(BaseObjectType, DjangoObjectType):
     class Meta:
         model = UserModel
         only_fields = ('email', 'nick_name')

@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
 import Auth from './Components/auth';
+import client from './Components/client';
 
 
 const supportsHistory = 'pushState' in window.history;
@@ -14,7 +15,9 @@ const supportsHistory = 'pushState' in window.history;
 ReactDOM.render(
   <BrowserRouter forceRefresh={!supportsHistory}>
     <Switch>
-      <Route path='/auth' component={Auth} />
+      <Route path='/auth' render={(props)=>{
+        return <Auth />;
+      }}/>
       <Route path='/' render={(props)=>{
         var access_token = localStorage.getItem('access_token');
         if (access_token){

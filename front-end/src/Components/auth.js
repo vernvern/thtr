@@ -1,7 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
+import gql from 'graphql-tag';
 
 import Login from '../Views/Login';
+import client from './client.js';
+
 
 class Auth extends React.Component {
   constructor(props) {
@@ -31,8 +34,21 @@ class Auth extends React.Component {
   login(event) {
     if (this.state.account && this.state.password){
       const access_token = '2333';
-      localStorage.setItem('access_token', access_token);
-      this.setState({isLogin: true});
+      const test = gql`
+        query dsa($email: String, $password: String){
+          login(email: $email, password: $password){
+            accessToken,
+            code,
+            msg
+          }
+        }
+      `;
+      const input = {"email": "test", "password": "test"};
+      client.query({query: test, variables: input})
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+      // localStorage.setItem('access_token', access_token);
+      // this.setState({isLogin: true});
     } else {
     }
     return this.isLogin;
