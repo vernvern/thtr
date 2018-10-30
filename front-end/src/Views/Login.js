@@ -5,8 +5,27 @@ import logo from '../Images/logo.svg';
 
 
 class Login extends Component {
+  constructor(props){
+    super(props);
+
+    this.noticeMsg = this.noticeMsg.bind(this);
+  }
+
+  noticeMsg(code){
+    let msg = '';
+    switch (code){
+      case '2001': msg = '请输入账号'; break;
+      case '2002': msg = '请输入密码'; break;
+      case '2003': msg = '网络错误，请稍后再试'; break;
+      case '1002': msg = '账号不存在'; break;
+      case '1003': msg = '密码错误'; break;
+      default: msg = '';
+    }
+    return msg;
+  }
 
   render() {
+    const msg = this.noticeMsg(this.props.code);
     return (
       <div id='login'>
 
@@ -29,14 +48,15 @@ class Login extends Component {
               <div className="sm-12 md-12 col padding-left-large">
                 <div className="form-group">
                     <label htmlFor="account">账号</label>
-                    <input type="text" placeholder="邮箱 | 账号" id="account" value={this.props.account} onChange={this.props.accountChange} />
+                    <input type="text" className='border border-primary' placeholder="邮箱 | 账号" id="account" value={this.props.account} onChange={this.props.accountChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">密码</label>
-                    <input type="text" placeholder="🙈" id="password" value={this.props.password} onChange={this.props.passwordChange}/>
+                    <input type="text" className='border border-primary' placeholder="🙈" id="password" value={this.props.password} onChange={this.props.passwordChange}/>
                 </div>
 
                 <button type='submit' className='btn-block' onClick={this.props.login}> 登录 </button>
+                <p className="text-danger">{msg}</p>
               </div>
             </div>
 

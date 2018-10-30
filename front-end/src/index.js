@@ -6,7 +6,6 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
 import Auth from './Components/auth';
-import client from './Components/client';
 
 
 const supportsHistory = 'pushState' in window.history;

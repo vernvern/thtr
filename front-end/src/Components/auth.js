@@ -15,7 +15,8 @@ class Auth extends React.Component {
     this.state = {
       account: '',
       password: '',
-      isLogin: access_token ? true : false
+      isLogin: access_token ? true : false,
+      code: '0'
     };
 
     this.accountChange = this.accountChange.bind(this);
@@ -31,10 +32,20 @@ class Auth extends React.Component {
     this.setState({password: event.target.value});
   }
 
-  login(event) {
-    if (this.state.account && this.state.password){
-      const access_token = '2333';
-      const test = gql`
+  // return code:
+  // - 2001: didn`t input account
+  // - 2002: didn`t input password
+  // - 2003: network failed
+  // - 1002: account did`t exist
+  // - 1003: wrong password
+  login() {
+    var code = this.state.code;
+    if (!this.state.account){
+      this.setState({code: '2001'});
+    } else if (!this.state.password){
+      this.setState({code: '2002'});
+    } else {
+      const query = gql`
         query dsa($email: String, $password: String){
           login(email: $email, password: $password){
             accessToken,
@@ -43,15 +54,28 @@ class Auth extends React.Component {
           }
         }
       `;
-      const input = {"email": "test", "password": "test"};
-      client.query({query: test, variables: input})
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-      // localStorage.setItem('access_token', access_token);
-      // this.setState({isLogin: true});
-    } else {
+      const input = {
+        "email": this.state.account,
+        "password": this.state.password
+      };
+      // async...
+      client
+        .query({query: query, variables: input})
+        .then(ret => {
+          // request success
+          code = ret.data.login.code;
+          var isLogin = code === '0';
+          if (isLogin) {
+            localStorage.setItem('access_token', ret.data.login.access_token);
+          }
+          this.setState({code: code, isLogin: isLogin});
+        })
+        .catch(error => {
+          // request fail
+          console.error(error);
+          this.setState({code: '2003'});
+        });
     }
-    return this.isLogin;
   }
 
   // logout(e) {
@@ -72,7 +96,7 @@ class Auth extends React.Component {
             password={this.state.password}
             passwordChange={this.passwordChange}
             login={this.login}
-            {...props}
+            code={this.state.code}
           />
         }
       }} />
