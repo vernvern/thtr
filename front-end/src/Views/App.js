@@ -28,7 +28,7 @@ class App extends Component {
                 <Route exact path='/home'  render={(props)=>{
                   var access_token = localStorage.getItem('access_token');
                   if (access_token){
-                    return <App />;
+                    return <Home />;
                   } else {
                     return <Redirect to='/login' />;
                   }
