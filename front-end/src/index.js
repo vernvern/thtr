@@ -1,25 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { ApolloProvider } from "react-apollo";
+
 
 import * as serviceWorker from './serviceWorker';
 
 import App from './Views/App';
 import Login from './Views/Login';
+import client from './Components/client';
 
 
 const supportsHistory = 'pushState' in window.history;
 
 
+const ApolloDecorator = () => (
+  <ApolloProvider client={client}>
+    <BrowserRouter forceRefresh={!supportsHistory}>
+      <Switch>
+        <Route path='/login' render={(props)=>{
+          return <Login />;
+        }}/>
+        <Route path='/' component={App} />
+      </Switch>
+    </BrowserRouter>
+  </ApolloProvider>
+);
+
 ReactDOM.render(
-  <BrowserRouter forceRefresh={!supportsHistory}>
-    <Switch>
-      <Route path='/login' render={(props)=>{
-        return <Login />;
-      }}/>
-      <Route path='/' component={App} />
-    </Switch>
-  </BrowserRouter>,
+  <ApolloDecorator />,
   document.getElementById('root')
 );
 
