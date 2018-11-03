@@ -56,8 +56,6 @@ class Login extends Component {
     }
 
     return (
-      <ApolloConsumer>
-        {client => (
           <div id='login'>
             <div className="row flex-center">
               <div className=''>
@@ -86,26 +84,30 @@ class Login extends Component {
                     </div>
 
                     <div className="form-group">
-                      <button type='submit' className='btn-block'
-                        onClick={async () => {
-                          if (!this.state.email){
-                            this.setCode('2001');
-                          } else if (!this.state.password){
-                            this.setCode('2002');
-                          } else {
-                            const { data } = await client.query({
-                              query: LOGIN_QUERY,
-                              variables: {'email': this.state.email, 'password': this.state.password}
-                            });
-                            if (data.login.code === '0'){
-                              localStorage.setItem('access_token', data.login.accessToken);
-                            }
-                            this.setCode(data.login.code);
-                          }
-                        }}
-                      >
-                        登录
-                      </button>
+                      <ApolloConsumer>
+                        {client => (
+                          <button type='submit' className='btn-block'
+                            onClick={async () => {
+                              if (!this.state.email){
+                                this.setCode('2001');
+                              } else if (!this.state.password){
+                                this.setCode('2002');
+                              } else {
+                                const { data } = await client.query({
+                                  query: LOGIN_QUERY,
+                                  variables: {'email': this.state.email, 'password': this.state.password}
+                                });
+                                if (data.login.code === '0'){
+                                  localStorage.setItem('access_token', data.login.accessToken);
+                                }
+                                this.setCode(data.login.code);
+                              }
+                            }}
+                          >
+                            登录
+                          </button>
+                        )}
+                      </ ApolloConsumer>
 
                       <p className="text-danger">{msg}</p>
                     </div>
@@ -123,8 +125,6 @@ class Login extends Component {
 
           </div>
 
-        )}
-      </ ApolloConsumer>
     );
   }
 }
