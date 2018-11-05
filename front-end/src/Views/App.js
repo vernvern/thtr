@@ -24,7 +24,14 @@ class App extends Component {
 
               <div className='md-10 col'>
                 {/* body */}
-                <Route exact path='/register' component={Register} />
+                <Route exact path='/register' render={(props)=>{
+                  var access_token = localStorage.getItem('access_token');
+                  if (access_token){
+                    return <Home />;
+                  } else {
+                    return <Register />;
+                  }
+                }}/>
                 <Route exact path='/home'  render={(props)=>{
                   var access_token = localStorage.getItem('access_token');
                   if (access_token){
