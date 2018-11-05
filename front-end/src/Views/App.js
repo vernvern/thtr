@@ -27,7 +27,7 @@ class App extends Component {
                 <Route exact path='/register' render={(props)=>{
                   var access_token = localStorage.getItem('access_token');
                   if (access_token){
-                    return <Home />;
+                    return <Redirect to='/' />;
                   } else {
                     return <Register />;
                   }
