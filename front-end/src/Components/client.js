@@ -1,8 +1,10 @@
 import ApolloClient from 'apollo-boost';
 
+import Config from '../config';
+
 
 const client = new ApolloClient({
-  uri: 'http://192.168.56.235/graphql/graphiql'
+  uri: Config.graphql_uri
 });
 
 export default client;
