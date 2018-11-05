@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import '../Css/Home.css';
+
+import logo from '../Images/logo.svg';
 
 
 class Home extends Component {
