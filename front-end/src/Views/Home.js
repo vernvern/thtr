@@ -4,6 +4,7 @@ import '../Css/Home.css';
 
 import logo from '../Images/logo.svg';
 
+
 class Home extends Component {
   render() {
     return (
@@ -21,7 +22,6 @@ class Home extends Component {
           >
             Learn React
           </a>
-        <input type="text" value="Hello!" />
         </header>
       </div>
     );

@@ -27,6 +27,7 @@ const ApolloDecorator = () => (
   </ApolloProvider>
 );
 
+
 ReactDOM.render(
   <ApolloDecorator />,
   document.getElementById('root')
