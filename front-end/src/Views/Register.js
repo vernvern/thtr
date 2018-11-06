@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Mutation } from "react-apollo";
 import gql from 'graphql-tag';
 
@@ -60,6 +61,9 @@ export class Register extends Component {
   }
 
   render() {
+    if (this.state.code === '0') {
+      return <Redirect to='/login' />
+    }
 
     let msg = '';
     switch (this.state.code){
@@ -78,10 +82,6 @@ export class Register extends Component {
       <Mutation
         mutation = { REGISTER_MUTATION }
         onCompleted = {(data) => {
-          console.info(data);
-          if (data.registerUser.code === '0'){
-            this.props.history.push('/login');
-          }
           this.setCode(data.registerUser.code);
         }}
       >

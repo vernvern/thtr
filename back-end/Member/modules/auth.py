@@ -24,9 +24,7 @@ class Register(GrapheneMutation):
         description = graphene.String()
 
     # return args
-    code = graphene.String()
     user = graphene.Field(lambda: RegisterOutUserType)
-    msg = graphene.String()
 
     # module
     def mutate(self, info, nick_name, password, email, description):
