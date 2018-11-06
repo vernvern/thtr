@@ -7,10 +7,10 @@ from Public.graphene_models import BaseObjectType
 from .models import UserModel
 
 
-class User(BaseObjectType, DjangoObjectType):
+class RegisterOutUserType(BaseObjectType, DjangoObjectType):
     class Meta:
         model = UserModel
-    removed = graphene.String(required=False)
+    only_fields = ('email', 'nick_name')
 
 
 class LoginOutputType(BaseObjectType, DjangoObjectType):
