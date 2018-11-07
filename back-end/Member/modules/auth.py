@@ -8,7 +8,7 @@ from django.core.cache import cache
 from django.contrib.auth.hashers import make_password, check_password
 
 from ..models import UserModel
-from ..graphene_models import User
+from ..graphene_models import RegisterOutUserType
 from .. import graphene_models as g_model
 from Public.redis_helper import RedisHelper
 from Public.graphene_hepler import GrapheneMutation
@@ -24,9 +24,7 @@ class Register(GrapheneMutation):
         description = graphene.String()
 
     # return args
-    code = graphene.String()
-    user = graphene.Field(lambda: User)
-    msg = graphene.String()
+    user = graphene.Field(lambda: RegisterOutUserType)
 
     # module
     def mutate(self, info, nick_name, password, email, description):

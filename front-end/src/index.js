@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { ApolloProvider } from "react-apollo";
-
+import Register from './Views/Register';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -18,10 +18,33 @@ const ApolloDecorator = () => (
   <ApolloProvider client={client}>
     <BrowserRouter forceRefresh={!supportsHistory}>
       <Switch>
+
         <Route path='/login' render={(props)=>{
-          return <Login />;
+          var access_token = localStorage.getItem('access_token');
+          if (access_token){
+            return <Redirect to='/' />;
+          } else {
+            return <Login />;
+          }
         }}/>
-        <Route path='/' component={App} />
+
+        <Route exact path='/register' render={(props)=>{
+          var access_token = localStorage.getItem('access_token');
+          if (access_token){
+            return <Redirect to='/' />;
+          } else {
+            return <Register />;
+          }
+        }}/>
+
+        <Route path='/' render={(props)=>{
+          var access_token = localStorage.getItem('access_token');
+          if (access_token){
+            return <App />;
+          } else {
+            return <Redirect to='/login' />;
+          }
+        }}/>
       </Switch>
     </BrowserRouter>
   </ApolloProvider>
