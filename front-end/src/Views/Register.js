@@ -133,7 +133,7 @@ export class Register extends Component {
                 </div>
                 <div className="form-group">
                   <label>签名</label>
-                  <textarea placeholder="必填!" valu={this.state.description} onChange={this.descriptionChange}></textarea>
+                  <textarea placeholder="必填!" value={this.state.description} onChange={this.descriptionChange}></textarea>
                 </div>
                 <button type='submit'>注册</button>
                 <p className="text-danger">{msg}</p>
