@@ -2,7 +2,7 @@
 
 import graphene
 from graphene_django import DjangoObjectType
-from Public.graphene_models import BaseObjectType
+from Public.graphene_hepler import BaseObjectType
 
 from .models import UserModel
 
