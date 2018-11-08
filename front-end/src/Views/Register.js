@@ -75,7 +75,6 @@ export class Register extends Component {
       case '2006': msg = '网络错误'; break;
       case '1001': msg = '账号已存在'; break;
       default: msg = '';
-
     }
 
     return (

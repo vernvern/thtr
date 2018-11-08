@@ -4,11 +4,8 @@ import gql from 'graphql-tag';
 
 
 const MUTATION_ADD_WORD = gql`
-  mutation register($word: String, $title: String, $password: String, $content: String){
-    registerUser(title:$title, password: $password, word: $word, content: $content){
-      user{
-        title
-      }
+  mutation add_word($word: String, $title: String, $content: String, $access_token: String) {
+    addWord(title:$title, word: $word, content: $content, accessToken: $access_token){
       code,
       msg
     }
@@ -43,37 +40,43 @@ class AddWord extends Component {
   }
 
   render() {
-    var msg = '';
+    let msg = '';
+    switch (this.state.code){
+      case '2001': msg = '请填写单词'; break;
+      case '2002': msg = '请填写标题'; break;
+      case '2003': msg = '请填写内容'; break;
+      case '1004': msg = '验证失败，请重新登录'; break;
+      default: msg = '';
+    }
     return (
       <Mutation
         mutation = { MUTATION_ADD_WORD }
         onCompleted = {(data) => {
-          this.setCode(data.registerUser.code);
+          if (data.addWord.code === '1004') {
+            // 清除access token 并且跳转到 /login
+          } else {
+            // 跳转
+          }
         }}
       >
-        {(register, {data}) => (
+        {(addWord, {data}) => (
           <form
             onSubmit = {e => {
               e.preventDefault();
               if (!this.state.word){
-                this.setState({code: '2002'});
-              } else if (!this.state.title){
-                this.setState({code: '2003'});
-              } else if (!this.state.password1){
-                this.setState({code: '2004'});
-              } else if (!this.state.password2){
-                this.setState({code: '2005'});
-              } else if (this.state.password1 !== this.state.password2){
                 this.setState({code: '2001'});
+              } else if (!this.state.title){
+                this.setState({code: '2002'});
               } else if (!this.state.content){
-                this.setState({code: '2006'});
+                this.setState({code: '2003'});
               } else {
                 const input_data = {
                   'title': this.state.title,
                   'word': this.state.word,
-                  'content': this.state.content
+                  'content': this.state.content,
+                  'access_token': localStorage.getItem('access_token')
                 };
-                register({variables: input_data});
+                addWord({variables: input_data});
               }
             }}
           >
