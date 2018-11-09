@@ -28,7 +28,7 @@ class AddWord(GrapheneMutation):
         user_id = cache.get(access_token)
         if user_id:
             word = WordModel(**data)
-            redis.hmset(word.id, word.as_dict())
+            redis.hmset('word:'+word.id, word.as_dict())
             redis.hmset('user_id:word_id', {user_id: word.id})
             code = '0'
         else:
