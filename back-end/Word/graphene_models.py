@@ -5,7 +5,6 @@ from graphene_django import DjangoObjectType
 from .models import WordModel
 
 
-class Word(DjangoObjectType):
+class AddWordOutputType(DjangoObjectType):
     class Meta:
         model = WordModel
-

@@ -5,6 +5,7 @@ import graphene
 import Member.query
 import Word.query
 import Member.mutation
+import Word.mutation
 
 
 class Query(Member.query.Query, Word.query.Query, graphene.ObjectType):
@@ -13,7 +14,10 @@ class Query(Member.query.Query, Word.query.Query, graphene.ObjectType):
     pass
 
 
-class Mutation(Member.mutation.Mutation, graphene.ObjectType):
+class Mutation(
+        Member.mutation.Mutation,
+        Word.mutation.Mutation,
+        graphene.ObjectType):
     # This class will inherit from multiple Mutations
     # as we begin to add more apps to our project
     pass

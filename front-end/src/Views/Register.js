@@ -75,7 +75,6 @@ export class Register extends Component {
       case '2006': msg = '网络错误'; break;
       case '1001': msg = '账号已存在'; break;
       default: msg = '';
-
     }
 
     return (
@@ -133,7 +132,7 @@ export class Register extends Component {
                 </div>
                 <div className="form-group">
                   <label>签名</label>
-                  <textarea placeholder="必填!" valu={this.state.description} onChange={this.descriptionChange}></textarea>
+                  <textarea placeholder="必填!" value={this.state.description} onChange={this.descriptionChange}></textarea>
                 </div>
                 <button type='submit'>注册</button>
                 <p className="text-danger">{msg}</p>
