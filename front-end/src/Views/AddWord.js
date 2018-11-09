@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Mutation } from "react-apollo";
 import gql from 'graphql-tag';
 
@@ -40,23 +41,27 @@ class AddWord extends Component {
   }
 
   render() {
+
+    if (this.state.code === '0') {
+      return <Redirect to='/home' />;
+    } else if (this.state.code === '1004') {
+      localStorage.removeItem('access_token');
+      return <Redirect to='/login' />;
+    }
+
     let msg = '';
     switch (this.state.code){
       case '2001': msg = '请填写单词'; break;
       case '2002': msg = '请填写标题'; break;
       case '2003': msg = '请填写内容'; break;
-      case '1004': msg = '验证失败，请重新登录'; break;
       default: msg = '';
     }
+
     return (
       <Mutation
         mutation = { MUTATION_ADD_WORD }
         onCompleted = {(data) => {
-          if (data.addWord.code === '1004') {
-            // 清除access token 并且跳转到 /login
-          } else {
-            // 跳转
-          }
+          this.setState({code: data.addWord.code});
         }}
       >
         {(addWord, {data}) => (
