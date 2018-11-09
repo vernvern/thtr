@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Mutation } from "react-apollo";
+import ReactMarkdown from "react-markdown";
 import gql from 'graphql-tag';
 
 
@@ -100,6 +101,7 @@ class AddWord extends Component {
                   <label>内容</label>
                   <textarea placeholder="" value={this.state.content} onChange={this.contentChange}></textarea>
                 </div>
+                <ReactMarkdown source={ '# ' + this.state.title + '\n' +  this.state.content} />
                 <button type='submit'>保存</button>
                 <p className="text-danger">{msg}</p>
               </div>
