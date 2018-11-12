@@ -3,7 +3,8 @@ import { Route } from 'react-router-dom';
 
 import Home from './Home';
 import Nav from './Nav';
-import AddWord from './AddWord'
+import AddWord from './AddWord';
+import WordList from './WordList';
 
 import '../Css/index.css';
 
@@ -23,8 +24,8 @@ class App extends Component {
 
               <div className='md-10 col'>
                 {/* body */}
-                <Route exact path='/' component={Home} />
-                <Route exact path='/home' component={Home} />
+                <Route exact path='/' component={WordList} />
+                <Route exact path='/home' component={WordList} />
                 <Route exact path='/page/add' component={AddWord} />
               </div>
             </div>
