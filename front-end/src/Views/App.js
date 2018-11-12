@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-import Home from './Home';
 import Nav from './Nav';
 import AddWord from './AddWord';
 import WordList from './WordList';

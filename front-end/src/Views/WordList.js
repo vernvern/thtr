@@ -20,9 +20,6 @@ const WORD_LIST_QUERY = gql`
 `;
 
 class WordListView extends Component {
-  constructor(props){
-    super(props);
-  }
   render(){
     const {data: {words} } = this.props;
     if (!words | JSON.stringify(words) === '{}') {
@@ -73,12 +70,12 @@ class WordList extends Component {
       "size": this.state.size,
       "accessToken": accessToken
     };
-    const _WordListView = graphql(WORD_LIST_QUERY, {
+    const WordListViewObject = graphql(WORD_LIST_QUERY, {
         options: { variables: kwargs },
       })(WordListView);
 
     return (
-      <_WordListView setIndex={this.setIndex} index={this.state.index} size={this.state.size} />
+        <WordListViewObject setIndex={this.setIndex} index={this.state.index} size={this.state.size} />
     );
   }
 }
