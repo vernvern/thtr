@@ -75,7 +75,11 @@ class WordList extends Component {
       })(WordListView);
 
     return (
-        <WordListViewObject setIndex={this.setIndex} index={this.state.index} size={this.state.size} />
+      <WordListViewObject
+        setIndex={this.setIndex}
+        index={this.state.index}
+        size={this.state.size}
+      />
     );
   }
 }
