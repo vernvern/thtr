@@ -63,3 +63,23 @@ class WordList:
         else:
             ret.code = '1004'
         return ret
+
+
+class WordDetail:
+    word = graphene.Field(
+        g_models.WordDetailOutputType,
+        **{'word_id': graphene.String()}
+    )
+
+    def resolve_word(self, info, word_id):
+        ret = g_models.WordDetailOutputType()
+
+        redis = RedisHelper()
+        word = redis.hgetall('word:'+word_id)
+        if word:
+            for k, v in word.items():
+                setattr(ret, k, v)
+            ret.code = '0'
+        else:
+            ret.code = '1005'
+        return ret

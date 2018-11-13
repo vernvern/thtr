@@ -22,3 +22,8 @@ WordListInputType = {
 class WordListOutputType(BaseObjectType, graphene.ObjectType):
     words = graphene.List(WordType)
     total = graphene.Int()
+
+
+class WordDetailOutputType(BaseObjectType, DjangoObjectType):
+    class Meta:
+        model = WordModel

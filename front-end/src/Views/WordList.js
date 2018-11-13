@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -31,7 +32,7 @@ class WordListView extends Component {
         <div>
           <ul>
             {words.words.map(({ id, word, title }) => (
-              <li key={id}>{word} {title}</li>
+              <Link to={'/page/detail/'+id}><li key={id}>{word} {title}</li></Link>
             ))}
           </ul>
           <div>
