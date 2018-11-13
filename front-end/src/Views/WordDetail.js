@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
+import gql from 'graphql-tag';
 import ReactMarkdown from "react-markdown";
+
+import client from '../Components/client';
 
 
 const text_center = {
   'textAlign': 'center',
-}
-
-const TextStyle = {
-  width: 260,
-  overflowX: 'visible',
-  overflowY: 'visible'
 }
 
 const VerticalLineStyle = {
@@ -21,16 +18,41 @@ const VerticalLineStyle = {
   borderRight: '1px solid black',
 }
 
+
+const WORD_DETAIL_QUERY = gql`
+  query word_detail_query($wordId: String){
+    word(wordId: $wordId){
+          title,
+            content
+          code
+        }
+  }
+`;
+
+
 export default class WordDetail extends Component {
   constructor(props){
     super(props);
     this.state = {
-      title: 'test',
+      title: '',
       content: '',
     }
     this.titleChange = this.titleChange.bind(this);
     this.contentChange = this.contentChange.bind(this);
  }
+
+  componentDidMount() {
+
+    // get word detail data
+    const word_id = this.props.match.params.word_id;
+    console.info(word_id);
+    client.query({query: WORD_DETAIL_QUERY, variables: {wordId: word_id}})
+      .then(data => {
+        const word = data.data.word;
+        this.setState({title: word.title, content: word.content});
+      })
+      .catch(error => console.error(error));
+  }
 
   titleChange(event){
     this.setState({title: event.target.value});
@@ -41,7 +63,7 @@ export default class WordDetail extends Component {
   }
 
   render() {
-    const word_id = this.props.match.params.word_id;
+
     return (
       <div>
         <div className="text-center" style={text_center}>
@@ -59,9 +81,9 @@ export default class WordDetail extends Component {
             <br />
             <br />
             <div className="form-group">
-              <input id='titleInput' className='input-block' type="text" placeholder="" id="title" value={this.state.title} onChange={this.titleChange} />
+              <input id='titleInput' className='input-block' type="text" placeholder="" value={this.state.title} onChange={this.titleChange} />
               <br />
-              <textarea id='contentTextarea' className='input-block' value={this.state.content} onChange={this.contentChange}/>
+              <textarea className='input-block' value={this.state.content} onChange={this.contentChange}/>
             </div>
           </div>
           <div className='col sm-5 col-5'>
