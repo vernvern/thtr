@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import Nav from './Nav';
 import AddWord from './AddWord';
 import WordList from './WordList';
+import WordDetail from './WordDetail';
 
 import '../Css/index.css';
 
@@ -26,6 +27,7 @@ class App extends Component {
                 <Route exact path='/' component={WordList} />
                 <Route exact path='/home' component={WordList} />
                 <Route exact path='/page/add' component={AddWord} />
+                <Route path='/page/detail/:word_id' component={WordDetail} />
               </div>
             </div>
           </div>
