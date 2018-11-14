@@ -27,3 +27,4 @@ class WordListOutputType(BaseObjectType, graphene.ObjectType):
 class WordDetailOutputType(BaseObjectType, DjangoObjectType):
     class Meta:
         model = WordModel
+    is_author = graphene.Boolean()

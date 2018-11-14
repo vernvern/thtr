@@ -68,10 +68,10 @@ class WordList:
 class WordDetail:
     word = graphene.Field(
         g_models.WordDetailOutputType,
-        **{'word_id': graphene.String()}
+        **{'word_id': graphene.String(), 'access_token': graphene.String()}
     )
 
-    def resolve_word(self, info, word_id):
+    def resolve_word(self, info, word_id, access_token=''):
         ret = g_models.WordDetailOutputType()
 
         redis = RedisHelper()
@@ -79,6 +79,11 @@ class WordDetail:
         if word:
             for k, v in word.items():
                 setattr(ret, k, v)
+            user_id = cache.get(access_token)
+            if user_id:
+                ret.is_author = redis.zrevrank('user-words:'+user_id, word_id) is not None
+            else:
+                ret.is_author = False
             ret.code = '0'
         else:
             ret.code = '1005'

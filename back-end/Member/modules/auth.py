@@ -61,5 +61,6 @@ class Login:
         else:
             ret.email = user.get('email')
             ret.access_token = str(uuid.uuid4())
-            cache.set(ret.access_token, use_id, 60 * 60 * 24)  # 生效24小时
+            # cache.set(ret.access_token, use_id, 60 * 60 * 24)  # 生效24小时
+            cache.set(ret.access_token, use_id)
         return ret

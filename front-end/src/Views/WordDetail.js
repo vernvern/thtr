@@ -99,14 +99,15 @@ export default class WordDetail extends Component {
         </div>
       </div>
     );
+    const mode = this.state.mode;
 
     return (
       <div>
         <div className="text-center" style={text_center}>
         <h2>test</h2>
         </div>
-        <button className='btn-small' onClick={this.modeChange}> {this.state.mode === 'detail' ? '编辑' : '查看'} </button>
-        {this.state.mode === 'detail' ? detail : edit}
+        <button className='btn-small' onClick={this.modeChange} hidden={mode === 'readonly'}> {mode === 'edit' ? '查看' : '编辑'} </button>
+        {mode === 'edit' ? edit : detail}
       </div>
     );
   }
