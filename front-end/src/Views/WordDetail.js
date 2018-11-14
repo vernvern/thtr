@@ -20,10 +20,11 @@ const VerticalLineStyle = {
 
 
 const WORD_DETAIL_QUERY = gql`
-  query word_detail_query($wordId: String){
-    word(wordId: $wordId){
+  query word_detail_query($wordId: String, $accessToken: String){
+    word(wordId: $wordId, accessToken: $accessToken){
           title,
-            content
+          content,
+          isAuthor,
           code
         }
   }
@@ -46,11 +47,18 @@ export default class WordDetail extends Component {
   componentDidMount() {
 
     // get word detail data
-    const word_id = this.props.match.params.word_id;
-    client.query({query: WORD_DETAIL_QUERY, variables: {wordId: word_id}})
+    const kwargs = {
+      wordId: this.props.match.params.word_id,
+      accessToken: localStorage.getItem('access_token')
+    }
+    client.query({query: WORD_DETAIL_QUERY, variables: kwargs})
       .then(data => {
         const word = data.data.word;
-        this.setState({title: word.title, content: word.content});
+        this.setState({
+          title: word.title,
+          content: word.content,
+          mode: word.isAuthor ? this.state.mode : 'readonly'
+        });
       })
       .catch(error => console.error(error));
   }
