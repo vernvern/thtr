@@ -32,7 +32,7 @@ class WordListView extends Component {
         <div>
           <ul>
             {words.words.map(({ id, word, title }) => (
-              <Link to={'/page/detail/'+id}><li key={id}>{word} {title}</li></Link>
+              <li key={id}><Link to={'/page/detail/'+id}>{word} {title}</Link></li>
             ))}
           </ul>
           <div>
