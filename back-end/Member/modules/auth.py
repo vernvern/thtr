@@ -37,7 +37,7 @@ class Register(GrapheneMutation):
         redis = RedisHelper()
         if not redis.hget('user_email:user_id', email):
             user = UserModel(**data)
-            redis.hmset(user.id, user.as_dict())
+            redis.hmset('user:'+user.id, user.as_dict())
             redis.hmset('user_email:user_id', {user.email: user.id})
             code = '0'
         else:
@@ -53,7 +53,7 @@ class Login:
         ret = g_model.LoginOutputType()
         redis = RedisHelper()
         use_id = redis.hget('user_email:user_id', email)
-        user = redis.hgetall(use_id)
+        user = redis.hgetall('user:'+use_id)
         if not use_id:
             ret.code = '1002'
         elif not check_password(password, user.get('password')):
@@ -61,5 +61,6 @@ class Login:
         else:
             ret.email = user.get('email')
             ret.access_token = str(uuid.uuid4())
-            cache.set(ret.access_token, use_id, 60 * 60 * 24)  # 生效24小时
+            # cache.set(ret.access_token, use_id, 60 * 60 * 24)  # 生效24小时
+            cache.set(ret.access_token, use_id)
         return ret

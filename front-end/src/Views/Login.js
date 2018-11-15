@@ -8,7 +8,7 @@ import logo from '../Images/logo.svg';
 
 
 const LOGIN_QUERY = gql`
-  query dsa($email: String, $password: String){
+  query login_query($email: String, $password: String){
     login(email: $email, password: $password){
       accessToken,
       code,
