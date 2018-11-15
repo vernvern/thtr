@@ -39,6 +39,33 @@ class AddWord(GrapheneMutation):
         return AddWord(code=code)
 
 
+class EditWord(GrapheneMutation):
+    ''' 修改词笔记 '''
+
+    class Arguments:
+        word_id = graphene.String()
+        title = graphene.String()
+        content = graphene.String()
+        access_token = graphene.String()
+
+    # module
+    def mutate(self, info, word_id, title, content, access_token):
+        word = {
+            'title': title,
+            'content': content
+        }
+        redis = RedisHelper()
+        user_id = cache.get(access_token)
+        if user_id:
+            redis.hmset('word:'+word_id, word)
+            now = arrow.now()
+            redis.zadd('user-words:'+user_id, now.timestamp, word_id)
+            code = '0'
+        else:
+            code = '1004'
+        return EditWord(code=code)
+
+
 class WordList:
     words = graphene.Field(
         g_models.WordListOutputType,
