@@ -9,7 +9,6 @@ from django.contrib.auth.hashers import make_password, check_password
 
 from ..models import UserModel
 from ..graphene_models import RegisterOutUserType
-from .. import graphene_models as g_model
 from Public.redis_helper import RedisHelper
 from Public.graphene_hepler import GrapheneMutation
 from Public.graphene_hepler import Api
@@ -18,6 +17,7 @@ from Public.graphene_hepler import Api
 api = Api()
 
 
+@api.register_mutation(api_name='register')
 class Register(GrapheneMutation):
     ''' 注册用户 '''
 

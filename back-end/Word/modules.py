@@ -15,7 +15,7 @@ from Public.graphene_hepler import Api
 api = Api()
 
 
-
+@api.register_mutation('addWord')
 class AddWord(GrapheneMutation):
     ''' 添加词笔记 '''
 
@@ -45,6 +45,7 @@ class AddWord(GrapheneMutation):
         return AddWord(code=code)
 
 
+@api.register_mutation('editWord')
 class EditWord(GrapheneMutation):
     ''' 修改词笔记 '''
 
@@ -122,7 +123,8 @@ class WordDetail:
                 setattr(ret, k, v)
             user_id = cache.get(access_token)
             if user_id:
-                ret.is_author = redis.zrevrank('user-words:'+user_id, word_id) is not None
+                ranking = redis.zrevrank('user-words:'+user_id, word_id)
+                ret.is_author = ranking is not None
             else:
                 ret.is_author = False
             ret.code = '0'

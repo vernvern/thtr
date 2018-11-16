@@ -62,3 +62,11 @@ class Api:
 
             return cls
         return decorator
+
+    def register_mutation(self, api_name):
+        assert isinstance(api_name, str)
+
+        def decorator(cls):
+            self.mutation[api_name] = cls.Field()
+            return cls
+        return decorator
