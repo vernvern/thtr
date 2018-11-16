@@ -1,5 +1,7 @@
 # -*- coding=utf-8 -*-
 
+import inspect
+
 import graphene
 from graphene_django import DjangoObjectType
 
@@ -29,3 +31,42 @@ class BaseObjectType(graphene.AbstractType):
             msg = response_code.get(value, None)
             self.msg = msg
         super().__setattr__(key, value)
+
+
+class Api:
+    _singleton = None
+
+    def __new__(cls, *args, **kw):
+        if not cls._singleton:
+            cls._singleton = object.__new__(cls, *args, **kw)
+        return cls._singleton
+
+    query = {}
+    mutation = {}
+
+    def register_query(self, api_name):
+        assert isinstance(api_name, str)
+
+        def decorator(cls):
+            _input = {k: v for k, v in inspect.getmembers(cls.Arguments) if not k.startswith('__')}
+            _ouput = {k: v for k, v in inspect.getmembers(cls) if not k.startswith('__') and not inspect.isclass(v) and not inspect.isfunction(v)}
+
+            Output = type(
+                api_name,
+                (BaseObjectType, graphene.ObjectType),
+                _ouput
+            )
+
+            self.query[api_name] = graphene.Field(Output, **_input)
+            self.query['resolve_'+api_name] = cls.query
+
+            return cls
+        return decorator
+
+    def register_mutation(self, api_name):
+        assert isinstance(api_name, str)
+
+        def decorator(cls):
+            self.mutation[api_name] = cls.Field()
+            return cls
+        return decorator

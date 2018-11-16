@@ -3,13 +3,19 @@
 import arrow
 import graphene
 from django.core.cache import cache
+from graphene_django import DjangoObjectType
 
 from Public.graphene_hepler import GrapheneMutation
 from Public.redis_helper import RedisHelper
 from .models import WordModel
 from . import graphene_models as g_models
+from Public.graphene_hepler import Api
 
 
+api = Api()
+
+
+@api.register_mutation('addWord')
 class AddWord(GrapheneMutation):
     ''' 添加词笔记 '''
 
@@ -39,6 +45,7 @@ class AddWord(GrapheneMutation):
         return AddWord(code=code)
 
 
+@api.register_mutation('editWord')
 class EditWord(GrapheneMutation):
     ''' 修改词笔记 '''
 
@@ -66,14 +73,18 @@ class EditWord(GrapheneMutation):
         return EditWord(code=code)
 
 
+@api.register_query(api_name='words')
 class WordList:
-    words = graphene.Field(
-        g_models.WordListOutputType,
-        **g_models.WordListInputType
-    )
+    class Arguments:
+        index = graphene.Int()
+        size = graphene.Int()
+        access_token = graphene.String()
 
-    def resolve_words(self, info, index, size, access_token):
-        ret = g_models.WordListOutputType()
+    words = graphene.List(g_models.WordType)
+    total = graphene.Int()
+
+    def query(self, info, index, size, access_token):
+        ret = WordList()
 
         user_id = cache.get(access_token)
         if user_id:
@@ -92,14 +103,18 @@ class WordList:
         return ret
 
 
+@api.register_query(api_name='word')
 class WordDetail:
-    word = graphene.Field(
-        g_models.WordDetailOutputType,
-        **{'word_id': graphene.String(), 'access_token': graphene.String()}
-    )
+    class Arguments:
+        word_id = graphene.String()
+        access_token = graphene.String()
 
-    def resolve_word(self, info, word_id, access_token=''):
-        ret = g_models.WordDetailOutputType()
+    title = graphene.String()
+    content = graphene.String()
+    is_author = graphene.Boolean()
+
+    def query(self, info, word_id, access_token=''):
+        ret = WordDetail()
 
         redis = RedisHelper()
         word = redis.hgetall('word:'+word_id)
@@ -108,7 +123,8 @@ class WordDetail:
                 setattr(ret, k, v)
             user_id = cache.get(access_token)
             if user_id:
-                ret.is_author = redis.zrevrank('user-words:'+user_id, word_id) is not None
+                ranking = redis.zrevrank('user-words:'+user_id, word_id)
+                ret.is_author = ranking is not None
             else:
                 ret.is_author = False
             ret.code = '0'
