@@ -12,6 +12,10 @@ from ..graphene_models import RegisterOutUserType
 from .. import graphene_models as g_model
 from Public.redis_helper import RedisHelper
 from Public.graphene_hepler import GrapheneMutation
+from Public.graphene_hepler import Api
+
+
+api = Api()
 
 
 class Register(GrapheneMutation):
@@ -46,11 +50,19 @@ class Register(GrapheneMutation):
         return Register(user=user, code=code)
 
 
+@api.register_query(api_name='login')
 class Login:
-    login = graphene.Field(g_model.LoginOutputType, **g_model.LoginInputType)
 
-    def resolve_login(self, info, email, password):
-        ret = g_model.LoginOutputType()
+    class Arguments:
+        email = graphene.String()
+        password = graphene.String()
+
+    email = graphene.String()
+    nick_name = graphene.String()
+    access_token = graphene.String()
+
+    def query(self, info, email, password):
+        ret = Login()
         redis = RedisHelper()
         use_id = redis.hget('user_email:user_id', email)
         user = redis.hgetall('user:'+use_id)

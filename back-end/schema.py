@@ -2,17 +2,16 @@
 
 import graphene
 
-import Member.query
-import Word.query
 import Member.mutation
 import Word.mutation
 
+from Member.modules import auth
+from Public.graphene_hepler import Api
 
-class Query(Member.query.Query, Word.query.Query, graphene.ObjectType):
-    # This class will inherit from multiple Queries
-    # as we begin to add more apps to our project
-    pass
+api = Api()
 
+
+Query = type('Query', (graphene.ObjectType, ), api.query)
 
 class Mutation(
         Member.mutation.Mutation,
