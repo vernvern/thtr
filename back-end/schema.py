@@ -3,8 +3,8 @@
 import graphene
 
 # 注册api
-import Member.modules.auth
-import Word.modules
+import Member.api
+import Word.api
 
 from Public.graphene_hepler import Api
 
