@@ -81,7 +81,7 @@ class Login extends Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">密码</label>
-                    <input type="text" className='border border-primary' placeholder="🙈" id="password" value={this.state.password} onChange={this.passwordChange}/>
+                    <input type="password" className='border border-primary' placeholder="🙈" id="password" value={this.state.password} onChange={this.passwordChange}/>
                 </div>
 
                 <div className="form-group">
