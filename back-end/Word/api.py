@@ -52,19 +52,22 @@ class EditWord(GrapheneMutation):
         content = graphene.String()
         access_token = graphene.String()
 
+    date_modified = graphene.String()
+
     # module
     def mutate(self, info, word_id, title, content, access_token):
+        now = arrow.now()
         word = {
             'title': title,
-            'content': content
+            'content': content,
+            'date_modified': now.timestamp
         }
         redis = RedisHelper()
         user_id = cache.get(access_token)
         redis.hmset('word:'+word_id, word)
-        now = arrow.now()
         redis.zadd('user-words:'+user_id, now.timestamp, word_id)
         code = '0'
-        return EditWord(code=code)
+        return EditWord(code=code, date_modified=now.timestamp)
 
 
 @api.register_query(api_name='words')
@@ -103,6 +106,7 @@ class WordDetail:
     title = graphene.String()
     content = graphene.String()
     is_author = graphene.Boolean()
+    date_modified = graphene.String()
 
     def query(self, info, word_id, access_token=''):
         ret = WordDetail()

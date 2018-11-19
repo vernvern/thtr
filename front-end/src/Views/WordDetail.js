@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 import client from '../Components/client';
 
-import { GetAccessToken } from '../Components/util';
+import { GetAccessToken, timestampToTime } from '../Components/util';
 
 
 const text_center = {
@@ -24,6 +24,7 @@ const EDIT_WORD_MUTAION = gql`
   mutation editWord($wordId: String, $title: String, $content: String, $access_token: String) {
     editWord(title:$title, wordId: $wordId, content: $content, accessToken: $access_token){
       code,
+      dateModified,
       msg
     }
   }
@@ -33,11 +34,12 @@ const EDIT_WORD_MUTAION = gql`
 const WORD_DETAIL_QUERY = gql`
   query word_detail_query($wordId: String, $accessToken: String){
     word(wordId: $wordId, accessToken: $accessToken){
-          title,
-          content,
-          isAuthor,
-          code
-        }
+      title,
+      content,
+      isAuthor,
+      dateModified,
+      code
+    }
   }
 `;
 
@@ -49,6 +51,7 @@ export default class WordDetail extends Component {
       title: '',
       content: '',
       mode: 'detail',
+      dateModified: 0,
     }
     this.titleChange = this.titleChange.bind(this);
     this.contentChange = this.contentChange.bind(this);
@@ -68,6 +71,7 @@ export default class WordDetail extends Component {
         this.setState({
           title: word.title,
           content: word.content,
+          dateModified: timestampToTime(word.dateModified),
           mode: word.isAuthor ? this.state.mode : 'readonly'
         });
       })
@@ -112,7 +116,10 @@ export default class WordDetail extends Component {
             onCompleted = {(data) => {
               console.info(data);
               if (data.editWord.code === '0') {
-                this.setState({'mode': 'detail'});
+                this.setState({
+                  'mode': 'detail',
+                  'dateModified': timestampToTime(data.editWord.dateModified)
+                });
               }
             }}
           >
@@ -156,9 +163,12 @@ export default class WordDetail extends Component {
     return (
       <div>
         <div className="text-center" style={text_center}>
-        <h2>test</h2>
+          <h2>test</h2>
         </div>
-        <button className='btn-small' onClick={this.modeChange} hidden={mode === 'readonly'}> {mode === 'edit' ? '查看' : '编辑'} </button>
+        <div className="row flex-right">
+          <p className='text-muted'>last modified: { this.state.dateModified }</p>
+        </div>
+        <button className='btn-small' onClick={this.modeChange} hidden={mode === 'readonly'}> {mode === 'edit' ? 'detail' : 'edit'} </button>
         {mode === 'edit' ? edit : detail}
       </div>
     );
