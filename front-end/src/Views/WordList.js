@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import { GetAccessToken } from '../Components/util';
+import { GetAccessToken, timestampToTime } from '../Components/util';
 
 
 const WORD_LIST_QUERY = gql`
@@ -13,7 +13,8 @@ const WORD_LIST_QUERY = gql`
       words{
         id,
         word,
-        title
+        title,
+        dateModified
       }
       total,
       code,
@@ -33,8 +34,8 @@ class WordListView extends Component {
       return (
         <div>
           <ul>
-            {words.words.map(({ id, word, title }) => (
-              <li key={id}><Link to={'/page/detail/'+id}>{word} {title}</Link></li>
+            {words.words.map(({ id, word, title, dateModified }) => (
+              <li key={id}><Link to={'/page/detail/'+id}>{ word } { title } { timestampToTime(dateModified) }</Link></li>
             ))}
           </ul>
           <div>
