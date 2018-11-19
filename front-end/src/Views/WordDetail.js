@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 
 import client from '../Components/client';
 
+import { GetAccessToken } from '../Components/util';
+
 
 const text_center = {
   'textAlign': 'center',
@@ -58,7 +60,7 @@ export default class WordDetail extends Component {
     // get word detail data
     const kwargs = {
       wordId: this.props.match.params.word_id,
-      accessToken: localStorage.getItem('access_token')
+      accessToken: GetAccessToken()
     }
     client.query({query: WORD_DETAIL_QUERY, variables: kwargs})
       .then(data => {
@@ -127,7 +129,7 @@ export default class WordDetail extends Component {
                       wordId: this.props.match.params.word_id,
                       title: this.state.title,
                       content: this.state.content,
-                      access_token: localStorage.getItem('access_token')
+                      access_token: GetAccessToken()
                     }
                     editWord({variables: input_data});
                   }

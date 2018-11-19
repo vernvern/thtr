@@ -33,15 +33,12 @@ class AddWord(GrapheneMutation):
             'content': content
         }
         redis = RedisHelper()
+        word = WordModel(**data)
         user_id = cache.get(access_token)
-        if user_id:
-            word = WordModel(**data)
-            redis.hmset('word:'+word.id, word.as_dict())
-            now = arrow.now()
-            redis.zadd('user-words:'+user_id, now.timestamp, word.id)
-            code = '0'
-        else:
-            code = '1004'
+        redis.hmset('word:'+word.id, word.as_dict())
+        now = arrow.now()
+        redis.zadd('user-words:'+user_id, now.timestamp, word.id)
+        code = '0'
         return AddWord(code=code)
 
 
@@ -63,13 +60,10 @@ class EditWord(GrapheneMutation):
         }
         redis = RedisHelper()
         user_id = cache.get(access_token)
-        if user_id:
-            redis.hmset('word:'+word_id, word)
-            now = arrow.now()
-            redis.zadd('user-words:'+user_id, now.timestamp, word_id)
-            code = '0'
-        else:
-            code = '1004'
+        redis.hmset('word:'+word_id, word)
+        now = arrow.now()
+        redis.zadd('user-words:'+user_id, now.timestamp, word_id)
+        code = '0'
         return EditWord(code=code)
 
 
@@ -87,19 +81,16 @@ class WordList:
         ret = WordList()
 
         user_id = cache.get(access_token)
-        if user_id:
-            redis = RedisHelper()
-            start, stop = (index - 1) * size, index * size - 1
-            words_id = redis.zrevrange('user-words:'+user_id, start, stop)
-            words = [redis.hgetall('word:'+word_id) for word_id in words_id]
-            words = [WordModel(**word) for word in words]
-            total = redis.zcard('user-words:'+user_id)
+        redis = RedisHelper()
+        start, stop = (index - 1) * size, index * size - 1
+        words_id = redis.zrevrange('user-words:'+user_id, start, stop)
+        words = [redis.hgetall('word:'+word_id) for word_id in words_id]
+        words = [WordModel(**word) for word in words]
+        total = redis.zcard('user-words:'+user_id)
 
-            ret.words = words
-            ret.total = total
-            ret.code = '0'
-        else:
-            ret.code = '1004'
+        ret.words = words
+        ret.total = total
+        ret.code = '0'
         return ret
 
 

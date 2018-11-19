@@ -11,6 +11,7 @@ const LOGIN_QUERY = gql`
   query login_query($email: String, $password: String){
     login(email: $email, password: $password){
       accessToken,
+      expiresIn,
       code,
       msg
     }
@@ -80,7 +81,7 @@ class Login extends Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">密码</label>
-                    <input type="text" className='border border-primary' placeholder="🙈" id="password" value={this.state.password} onChange={this.passwordChange}/>
+                    <input type="password" className='border border-primary' placeholder="🙈" id="password" value={this.state.password} onChange={this.passwordChange}/>
                 </div>
 
                 <div className="form-group">
@@ -99,6 +100,7 @@ class Login extends Component {
                             });
                             if (data.login.code === '0'){
                               localStorage.setItem('access_token', data.login.accessToken);
+                              localStorage.setItem('expires_in', data.login.expiresIn);
                             }
                             this.setCode(data.login.code);
                           }

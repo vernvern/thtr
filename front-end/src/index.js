@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './Views/App';
 import Login from './Views/Login';
 import client from './Components/client';
+import { GetAccessToken } from './Components/util';
 
 
 const supportsHistory = 'pushState' in window.history;
@@ -20,7 +21,7 @@ const ApolloDecorator = () => (
       <Switch>
 
         <Route path='/login' render={(props)=>{
-          var access_token = localStorage.getItem('access_token');
+          var access_token = GetAccessToken();
           if (access_token){
             return <Redirect to='/' />;
           } else {
@@ -29,7 +30,7 @@ const ApolloDecorator = () => (
         }}/>
 
         <Route exact path='/register' render={(props)=>{
-          var access_token = localStorage.getItem('access_token');
+          var access_token = GetAccessToken();
           if (access_token){
             return <Redirect to='/' />;
           } else {
@@ -38,7 +39,7 @@ const ApolloDecorator = () => (
         }}/>
 
         <Route path='/' render={(props)=>{
-          var access_token = localStorage.getItem('access_token');
+          var access_token = GetAccessToken();
           if (access_token){
             return <App />;
           } else {
