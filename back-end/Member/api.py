@@ -2,6 +2,7 @@
 
 import uuid
 
+import arrow
 import graphene
 from graphene_django import DjangoObjectType
 from django.core.cache import cache
@@ -60,6 +61,7 @@ class Login:
     email = graphene.String()
     nick_name = graphene.String()
     access_token = graphene.String()
+    expires_in = graphene.Int()
 
     def query(self, info, email, password):
         ret = Login()
@@ -73,6 +75,8 @@ class Login:
         else:
             ret.email = user.get('email')
             ret.access_token = str(uuid.uuid4())
-            # cache.set(ret.access_token, use_id, 60 * 60 * 24)  # 生效24小时
-            cache.set(ret.access_token, use_id)
+            expires_seconds = 60 * 60 * 24  # 生效24小时
+            ret.expires_in = arrow.now() \
+                .shift(seconds=expires_seconds).timestamp
+            cache.set(ret.access_token, use_id, expires_seconds)
         return ret

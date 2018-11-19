@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
+import { GetAccessToken } from '../Components/util';
+
 
 const WORD_LIST_QUERY = gql`
   query word_list_query($index: Int, $size: Int, $accessToken: String){
@@ -65,7 +67,7 @@ class WordList extends Component {
   }
 
   render() {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = GetAccessToken();
     const kwargs = {
       "index": this.state.index,
       "size": this.state.size,

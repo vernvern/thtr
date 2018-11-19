@@ -4,6 +4,8 @@ import { Mutation } from "react-apollo";
 import ReactMarkdown from "react-markdown";
 import gql from 'graphql-tag';
 
+import { GetAccessToken } from '../Components/util';
+
 
 const MUTATION_ADD_WORD = gql`
   mutation add_word($word: String, $title: String, $content: String, $access_token: String) {
@@ -45,9 +47,6 @@ class AddWord extends Component {
 
     if (this.state.code === '0') {
       return <Redirect to='/home' />;
-    } else if (this.state.code === '1004') {
-      localStorage.removeItem('access_token');
-      return <Redirect to='/login' />;
     }
 
     let msg = '';
@@ -80,7 +79,7 @@ class AddWord extends Component {
                   'title': this.state.title,
                   'word': this.state.word,
                   'content': this.state.content,
-                  'access_token': localStorage.getItem('access_token')
+                  'access_token': GetAccessToken()
                 };
                 addWord({variables: input_data});
               }

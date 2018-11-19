@@ -11,6 +11,7 @@ const LOGIN_QUERY = gql`
   query login_query($email: String, $password: String){
     login(email: $email, password: $password){
       accessToken,
+      expiresIn,
       code,
       msg
     }
@@ -99,6 +100,7 @@ class Login extends Component {
                             });
                             if (data.login.code === '0'){
                               localStorage.setItem('access_token', data.login.accessToken);
+                              localStorage.setItem('expires_in', data.login.expiresIn);
                             }
                             this.setCode(data.login.code);
                           }
