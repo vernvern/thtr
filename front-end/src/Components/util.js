@@ -13,5 +13,16 @@ function GetAccessToken() {
   }
 }
 
+function timestampToTime(timestamp) {
+        const date = new Date(timestamp * 1000); //13位时间戳
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        const D = date.getDate() + ' ';
+        const h = date.getHours() + ':';
+        const m = date.getMinutes() + ':';
+        const s = date.getSeconds();
+        return Y+M+D+h+m+s;
+}
 
-export { GetAccessToken };
+
+export { GetAccessToken, timestampToTime };

@@ -18,7 +18,7 @@ from Public.graphene_hepler import Api
 api = Api()
 
 
-@api.register_mutation(api_name='register')
+@api.register_mutation(api_name='registerUser')
 class Register(GrapheneMutation):
     ''' 注册用户 '''
 
