@@ -51,7 +51,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware'
+    'django.middleware.common.CommonMiddleware',
+    'Public.middleware.request_log_middleware'
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -214,12 +215,12 @@ LOGGING = {
             'propagate': False,  # 向上（更高level的logger）传递
         },
         'django.server': {
-            'handlers': ['local', 'production'],
+            'handlers': ['local', 'production', 'stdout', 'stderr'],
             'level': 'INFO',
             'propagate': False,
         },
         'django.request': {
-            'handlers': ['local', 'production'],
+            'handlers': ['local', 'production', 'stdout', 'stderr'],
             'level': 'INFO',
             'propagate': False,
         }
