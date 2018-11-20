@@ -17,7 +17,7 @@ class BaseModel(models.Model):
         abstract = True
 
     def __init__(self, *args, **kw):
-        now = arrow.now().to('08:00').datetime
+        now = arrow.now()
         if 'date_created' not in kw:
             kw['date_created'] = now.timestamp
         if 'date_modified' not in kw:
@@ -31,6 +31,4 @@ class BaseModel(models.Model):
         _dict = deepcopy(self.__dict__)
         _dict.pop('_state')
 
-        _dict['date_created'] = arrow.get(_dict['date_created']).timestamp
-        _dict['date_modified'] = arrow.get(_dict['date_modified']).timestamp
         return _dict
