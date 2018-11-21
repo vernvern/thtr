@@ -35,7 +35,9 @@ class WordListView extends Component {
         <div>
           <ul>
             {words.words.map(({ id, word, title, dateModified }) => (
-              <li key={id}><Link to={'/page/detail/'+id}>{ word } { title } { timestampToTime(dateModified) }</Link></li>
+              <li key={id}><Link to={'/page/detail/'+id}>
+                { word + ' ' + title + ' ' + timestampToTime(dateModified).slice(0,10) }
+              </Link></li>
             ))}
           </ul>
           <div>
@@ -62,7 +64,6 @@ class WordList extends Component {
     this.setIndex = this.setIndex.bind(this);
   }
 
-
   setIndex(event){
     this.setState({index: event.target.value});
   }
@@ -75,8 +76,8 @@ class WordList extends Component {
       "accessToken": accessToken
     };
     const WordListViewObject = graphql(WORD_LIST_QUERY, {
-        options: { variables: kwargs },
-      })(WordListView);
+      options: { variables: kwargs, fetchPolicy: 'network-only' },
+    })(WordListView);
 
     return (
       <WordListViewObject
